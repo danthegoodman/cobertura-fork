@@ -3,6 +3,7 @@
  *
  * Copyright (C) 2005 Mark Doliner 
  * Copyright (C) 2006 Jiri Mares 
+ * Copyright (C) 2012 Danny Kirchmeier
  * 
  * Cobertura is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
@@ -90,14 +91,18 @@ class ClassInstrumenter extends ClassAdapter
 	public void visit(int version, int access, String name, String signature,
 			String superName, String[] interfaces)
 	{
+		//Do not save class data for interfaces
+		if((access & Opcodes.ACC_INTERFACE) == 0){
+			super.visit(version, access, name, signature, superName, interfaces);
+			return;
+		}
 		this.myName = name.replace('/', '.');
 		this.classData = this.projectData.getOrCreateClassData(this.myName);
 		this.classData.setContainsInstrumentationInfo();
 
-		// Do not attempt to instrument interfaces or classes that
+		// Do not attempt to instrument classes that
 		// have already been instrumented
-		if (((access & Opcodes.ACC_INTERFACE) != 0)
-				|| arrayContains(interfaces, hasBeenInstrumented))
+		if (arrayContains(interfaces, hasBeenInstrumented))
 		{
 			super.visit(version, access, name, signature, superName,
 							interfaces);
@@ -123,6 +128,7 @@ class ClassInstrumenter extends ClassAdapter
 	public void visitSource(String source, String debug)
 	{
 		super.visitSource(source, debug);
+		if(classData == null) return;
 		classData.setSourceFileName(source);
 	}
 
