@@ -76,7 +76,6 @@ import net.sourceforge.cobertura.javancss.parser.TokenMgrError;
 import net.sourceforge.cobertura.javancss.parser.debug.JavaParserDebug;
 import net.sourceforge.cobertura.javancss.parser.java15.JavaParser15;
 import net.sourceforge.cobertura.javancss.parser.java15.debug.JavaParser15Debug;
-import net.sourceforge.cobertura.javancss.test.JavancssTest;
 
 /**
  * While the Java parser class might be the heart of JavaNCSS,
@@ -84,7 +83,7 @@ import net.sourceforge.cobertura.javancss.test.JavancssTest;
  * invokes the Java parser.
  *
  * @author    Chr. Clemens Lee <clemens@kclee.com>
- *            , recursive feature by Pääkö Hannu
+ *            , recursive feature by Pï¿½ï¿½kï¿½ Hannu
  *            , additional javadoc metrics by Emilio Gongora <emilio@sms.nl>
  *            , and Guillermo Rodriguez <guille@sms.nl>.
  * @version   $Id$
