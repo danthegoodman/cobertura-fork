@@ -6,6 +6,7 @@
  * Copyright (C) 2005 Jeremy Thomerson
  * Copyright (C) 2005 Grzegorz Lukasik
  * Copyright (C) 2006 Dan Godfrey
+ * Copyright (C) 2012 Danny Kirchmeier
  *
  * Cobertura is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
@@ -46,7 +47,8 @@ public class Main {
 	private File dataFile = null;
 	private File destinationDir = null;
 	private String encoding = "UTF-8";
-	
+	private boolean noFrames = false;
+
 	private void parseArguments(String[] args) throws Exception {
 		FileFinder finder = new FileFinder();
 		String baseDir = null;
@@ -59,6 +61,8 @@ public class Main {
 				setDestination( args[++i]);
 			} else if (args[i].equals("--format")) {
 				setFormat( args[++i]);
+			} else if (args[i].equals("--noframes")){
+				setNoFrames(true);
 			} else if (args[i].equals("--encoding")) {
 				setEncoding( args[++i]);
 			} else {
@@ -102,7 +106,7 @@ public class Main {
 
 		ComplexityCalculator complexity = new ComplexityCalculator(finder);
 		if (format.equalsIgnoreCase("html")) {
-			new HTMLReport(projectData, destinationDir, finder, complexity, encoding);
+			new HTMLReport(projectData, destinationDir, finder, complexity, encoding, noFrames);
 		} else if (format.equalsIgnoreCase("xml")) {
 			new XMLReport(projectData, destinationDir, finder, complexity);
 		} else if (format.equalsIgnoreCase("summaryXml")) {
@@ -155,6 +159,10 @@ public class Main {
 
 	private void setEncoding(String encoding){
 		this.encoding = encoding;
+	}
+
+	private void setNoFrames(boolean noFrames){
+		this.noFrames = noFrames;
 	}
 	
 	public static void main(String[] args) throws Exception {

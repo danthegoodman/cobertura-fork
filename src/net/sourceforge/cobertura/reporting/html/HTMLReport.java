@@ -7,6 +7,7 @@
  * Copyright (C) 2006 Naoki Iwami
  * Copyright (C) 2009 Charlie Squires
  * Copyright (C) 2009 John Lewis
+ * Copyright (C) 2012 Danny Kirchmeier
  *
  * Cobertura is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published
@@ -76,12 +77,14 @@ public class HTMLReport
 
 	private String encoding;
 
+	private boolean noFrames;
+
 	/**
 	 * Create a coverage report
 	 * @param encoding 
 	 */
 	public HTMLReport(ProjectData projectData, File outputDir,
-			FileFinder finder, ComplexityCalculator complexity, String encoding)
+			FileFinder finder, ComplexityCalculator complexity, String encoding, boolean noFrames)
 			throws Exception
 	{
 		this.destinationDir = outputDir;
@@ -89,10 +92,13 @@ public class HTMLReport
 		this.complexity = complexity;
 		this.projectData = projectData;
 		this.encoding = encoding;
+		this.noFrames = noFrames;
 
-		CopyFiles.copy(outputDir);
+		CopyFiles.copy(outputDir, noFrames);
+		if(!noFrames){
 		generatePackageList();
 		generateSourceFileLists();
+		}
 		generateOverviews();
 		generateSourceFiles();
 	}
@@ -284,7 +290,7 @@ public class HTMLReport
 		String filename;
 		if (packageData == null)
 		{
-			filename = "frame-summary.html";
+			filename = noFrames ? "index.html" : "frame-summary.html";
 		}
 		else
 		{
@@ -720,9 +726,11 @@ public class HTMLReport
 		double ccn = complexity.getCCNForPackage(packageData);
 
 		ret.append("  <tr>");
-		ret.append("<td><a href=\"" + url1
-				+ "\" onclick='parent.sourceFileList.location.href=\"" + url2
-				+ "\"'>" + generatePackageName(packageData) + "</a></td>");
+		ret.append("<td><a href=\"" + url1 + "\"");
+		if(!noFrames){
+			ret.append(" onclick='parent.sourceFileList.location.href=\"" + url2+ "\"'");
+		}
+		ret.append(">" + generatePackageName(packageData) + "</a></td>");
 		ret.append("<td class=\"value\">" + packageData.getNumberOfChildren()
 				+ "</td>");
 		ret.append(generateTableColumnsFromData(packageData, ccn));

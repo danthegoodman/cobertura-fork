@@ -7,6 +7,7 @@
  * Copyright (C) 2005 Mark Doliner
  * Copyright (C) 2005 Jeremy Thomerson
  * Copyright (C) 2005 Grzegorz Lukasik
+ * Copyright (C) 2012 Danny Kirchmeier
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -75,6 +76,7 @@ public class ReportTask extends CommonMatchingTask
 
 	private String dataFile = null;
 	private String format = "html";
+	private boolean noFrames = false;
 	private File destDir;
 	private String srcDir;
    private String encoding;
@@ -93,6 +95,8 @@ public class ReportTask extends CommonMatchingTask
 				builder.addArg("--destination", destDir.getAbsolutePath());
 			if (format != null)
 				builder.addArg("--format", format);
+			if (noFrames)
+				builder.addArg("--noframes");
          if (encoding != null)
             builder.addArg("--encoding", encoding);
 			if (srcDir != null)
@@ -127,6 +131,10 @@ public class ReportTask extends CommonMatchingTask
 
 	public void setFormat(String format) {
 		this.format = format;
+	}
+
+	public void setNoFrames(boolean noFrames) {
+		this.noFrames = !noFrames;
 	}
 
    public void setEncoding(String encoding) {

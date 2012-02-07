@@ -30,7 +30,7 @@ import java.io.InputStream;
 public abstract class CopyFiles
 {
 
-	public static void copy(File destinationDir) throws IOException
+	public static void copy(File destinationDir, boolean noFrames) throws IOException
 	{
 		File cssOutputDir = new File(destinationDir, "css");
 		File imagesOutputDir = new File(destinationDir, "images");
@@ -57,6 +57,7 @@ public abstract class CopyFiles
 		copyResourceFromJar("stringbuilder.js", jsOutputDir);
 
 		copyResourceFromJar("help.html", destinationDir);
+		if(noFrames) return;
 		copyResourceFromJar("index.html", destinationDir);
 	}
 

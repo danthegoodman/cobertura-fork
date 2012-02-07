@@ -1,8 +1,9 @@
 This is a fork of the cobertura project.
 
-This branch is a subset of the cobertura files, containing
-only what I needed for a project I was working on:
-  The Ant and command line support.
+The svn url is https://cobertura.svn.sourceforge.net/svnroot/cobertura/trunk/cobertura
 
-Going one step further, I have unjar'd the jars into the lib directory.
-Everything is baked into one jar now.
+This fork accompishes the following things:
+  Only a subset of the main files are included. Ant and Command Line support remain.
+  Needed jars have been unjar'd. Everything is baked into one jar now.
+  Interfaces are not marked and will no longer show up as 'N/A'. They don't show up at all.
+  Reports may be generated without frames. Use the --noframes options.
